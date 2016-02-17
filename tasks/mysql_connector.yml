@@ -1,0 +1,53 @@
+---
+# tasks file for jira
+
+# TODO : à reprendre avec unarchive http en passant à Ansible 2
+- name: download mysql connector package
+  get_url:
+    url={{ mysql_connector_url }}
+    dest={{ mysql_connector_archive }}
+    #checksum={{ mysql_connector_checksum }}
+  tags:
+    - jira
+    - mysql-pkg
+
+- file: path="{{ jira_catalina }}/lib/temp" state=absent
+  tags:
+    - jira
+    - mysql-pkg
+
+- file: path={{ item }} state=directory group={{ jira_user }} owner={{ jira_user }}
+  with_items:
+    - "{{ jira_catalina }}/lib"
+    - "{{ jira_catalina }}/lib/temp"
+  tags:
+    - jira
+    - mysql-pkg
+
+- name: unarchive mysql connector package
+  unarchive: src="{{ mysql_connector_archive }}" dest="{{ jira_catalina }}/lib/temp" copy=no group={{ jira_user }} owner={{ jira_user }}
+  tags:
+    - jira
+    - mysql-pkg
+
+#- find: paths="{{ jira_home }}/lib" regex="'*.jar'" recurse=yes
+#  register: jars
+#  tags:
+#    - jira
+#    - mysql-pkg
+#- debug: var=jars
+#  tags:
+#    - jira
+#    - mysql-pkg
+#- copy: src="{{ item }}" dest="{{ jira_home }}/lib"
+#  with_items: jars
+#  tags:
+#    - jira
+#    - mysql-pkg
+
+# TODO : à reprendre avec find en passant à Ansible 2
+- shell: cp {{ jira_catalina }}/lib/temp/**/*.jar {{ jira_catalina }}/lib
+  notify: restart jira
+  tags:
+    - jira
+    - mysql-pkg

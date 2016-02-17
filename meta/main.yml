@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  author: hebergement@steamulo.com
+  description: 
+  company: Steamulo
+  license: "Apache v2.0"
+  min_ansible_version: 1.9
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  categories:
+    - web
+
+dependencies:
+  - src: git+ssh://git@github.com/STEAMULO/ansible-role-java.git
+    version: v01.00.001
+    name: steamulo.java
+    tags: java
+
+  - src: hswong3i.jira
+    version: 4.0.1
+    name: hswong3i.jira
+    tags: jira
+  

@@ -1,0 +1,6 @@
+---
+
+- debug: var=install_mysql_connector
+
+- include: mysql_connector.yml
+  when: install_mysql_connector
