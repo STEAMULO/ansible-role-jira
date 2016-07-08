@@ -18,8 +18,8 @@ dependencies:
     name: steamulo.java
     tags: java
 
-  - src: hswong3i.jira
+  - src: https://github.com/STEAMULO/ansible-role-jira-1.git
     version: 4.0.1
-    name: hswong3i.jira
+    name: galaxy.hswong3i.jira
     tags: jira
   
